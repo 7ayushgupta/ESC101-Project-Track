@@ -1,1 +1,13 @@
 Websockets are one of the coolest technologies in recent years. They are getting popular mostly because they allow two-way communication between server and browser. In traditional HTTP application client sends requests and server issues response after which their exchange is terminated. This model is totally okay for most web apps, but it is inefficient for applications that require realtime communication. RFC 6455 is probably most detailed introduction to websockets specs.
+
+One of the standard examples, kind of the 'hello world' of Websockets is a chat application. You'll find numerous examples of similar implementations for many languages.
+
+First we'll define a small set of goals for our implementetation. Some of these might sound basic, but keep in mind, any project lives and dies with a proper scope definition:
+
+    Users to send messages
+    Messages sent by one user should be broadcasted to all connected users
+    Provide different chat rooms
+    A user should get a list of currently connected users
+    A user should be able to set their own nickname
+
+https://medium.com/@martin.sikora/node-js-websocket-simple-chat-tutorial-2def3a841b61
