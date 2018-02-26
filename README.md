@@ -5,3 +5,6 @@ This project aims to provide basic chat functionality to the people in the campu
 
 Mentored by: Govind Gopakumar (@govig)
 
+### Timeline
+
+* 25th February: Learnt how Websockets work, and how we require a HTTP server to serve requests from a browser. Used an implementation of a webserver in Python, [SimpleWebSocketServer](https://github.com/dpallot/simple-websocket-server).
