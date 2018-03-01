@@ -11,3 +11,6 @@ Mentored by: Govind Gopakumar (@govig)
 
 * 27th February: Added basic Frontend elements, still need to figure out the complete Frontend layout. Urgent TODO: Form the backend quickly
 
+* 1st March: Changing backend server from Python to a NodeJS HTTP Server, front-end remains some. Decision taken due to a lot of shortcomings using a Python backend, such as poor support of handling events, etc. (Would have to use a lot of libraries and still would not have got the required result)
+
+

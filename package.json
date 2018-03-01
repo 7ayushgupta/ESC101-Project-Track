@@ -1,0 +1,12 @@
+{
+  "name": "Chat Application",
+  "description": "A chat application built for the ESC101 course project",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.0.4"
+  },
+  "homepage": "https://github.com/7ayushgupta/ESC101-Project-Track",
+  "author": "Ayush Gupta",
+  "keywords": [],
+  "license": "MIT"
+}
