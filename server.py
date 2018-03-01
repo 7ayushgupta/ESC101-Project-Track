@@ -49,18 +49,18 @@ def handle(server_socket, addr):
 
   print 'Client closed:', addr
   lock.acquire()
-  clients_list.remove(server_socket)
+  clients_list.remove([server_socket,addr])
   lock.release()
   server_socket.close()
 
 def broadcast(message, connection):
-    for i in range(0,len(active_clients)):
-        if active_clients[i]!=connection:
+    for i in range(0,len(clients_list)):
+        if clients_list[i][1]!=connection:
             try:
-                print 'Sending to' + str(active_clients[i])
-                clients_list[i].send(message)
+                print 'Sending to' + str(clients_list[i][1])
+                clients_list[i][0].send(message)
             except:
-                clients_list[i].close()
+                clients_list[i][0].close()
                  # if the link is broken, we remove the client
 
 def start_server():
@@ -88,12 +88,10 @@ def start_server():
   while 1:
     conn, addr = server_socket.accept()
     print 'NEW CONNECTION ['+str(len(clients_list))+'], connected by ', addr
-    clients_list.append(conn)
-    active_clients.append(addr)
+    clients_list.append([conn,addr])
     threading.Thread(target = handle, args = (conn, addr)).start()
 
   
 clients_list = []
-active_clients = []
 start_server()
 
