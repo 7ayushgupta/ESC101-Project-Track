@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python
 # shebang tells the intrepreter which Python environment to use to execute
 
@@ -89,21 +88,3 @@ def start_server():
 clients = []
 start_server()
 
-=======
-from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
-
-class SimpleEcho(WebSocket):
-
-    def handleMessage(self):
-        # echo message back to client
-        self.sendMessage(self.data)
-
-    def handleConnected(self):
-        print(self.address, 'Connected To Server')
-
-    def handleClose(self):
-        print(self.address, 'Closed connection')
-
-server = SimpleWebSocketServer('', 8000, SimpleEcho)
-server.serveforever()
->>>>>>> 71d7ab0261d319c5026efc7c4c2c09a5a7ddad78
