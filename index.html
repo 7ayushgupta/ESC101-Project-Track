@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html>
     <head>
         <!--Writing all the required stuff in the meta description tags-->  
@@ -13,35 +12,8 @@
         <title>WebSockets - Simple chat</title> 
 
         <!--TODO: add links to a stylesheet-->
-        <script type="application/javascript">
-        var ws;
-
-        function init() {
-            var servermsg = document.getElementById("servermsg");
-            ws = new WebSocket("ws://127.0.0.1:9877/");
-            ws.onopen = function(){
-                servermsg.innerHTML = servermsg.innerHTML + "<br>Server connected";
-            };
-            ws.onmessage = function(e){
-                servermsg.innerHTML = servermsg.innerHTML + "<br><< Recieved data: " + e.data;
-            };
-            ws.onclose = function(){
-                servermsg.innerHTML = servermsg.innerHTML + "<br>Server disconnected";
-            };
-        }
-        function postmsg(){
-            var text = document.getElementById("message").value;
-            ws.send(text);
-            servermsg.innerHTML = servermsg.innerHTML + "<br>>> Data sent: " + text;
-        }
-        //$(function(){
-        //    var text = document.getElementById("message").value;
-        //    ws.send(text);
-        //    servermsg.innerHTML = servermsg.innerHTML + "<br>Sent: " + text;            
-        //});
-
-
-    </script>
+        
+        <script type="application/javascript" src="script.js"></script>
 </head>
 <body onload="init();">
     <form action="" onSubmit="postmsg();return false;">
@@ -52,22 +24,3 @@
 </body>
 
 </html>
-=======
-	<meta charset="utf-8" />
-	<title>WebSockets</title>
-	<script language="javascript" type="text/javascript" src="script.js"></script>
-	<body>
-		<form name="myform">
-		<p><textarea name="outputtext" rows="20" cols="50"></textarea></p>
-		<p><textarea name="inputtext" cols="50"></textarea></p>
-		<p><textarea name="url" cols="50"></textarea></p>
-		<p>
-		<input type="button" name=sendButton value="Send" onClick="sendText();">
-		<input type="button" name=clearButton value="Clear" onClick="clearText();">
-		<input type="button" name=disconnectButton value="Disconnect" onClick="doDisconnect();">
-		<input type="button" name=connectButton value="Connect" onClick="doConnect();">
-		</p>
-		</form>
-	</body>
-</html>
->>>>>>> 71d7ab0261d319c5026efc7c4c2c09a5a7ddad78

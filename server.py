@@ -5,27 +5,25 @@
 import socket
 import threading
 import struct
-import hashlib
+import hashlib 
 import base64
 
 # defining global variables 
 PORT = 9877
 HOST = ""
-MAGIC = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+MAGIC_KEY = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
 MAX_CLIENTS = 100
 BUFFER_SIZE = 4096
 
 server_socket = socket.socket()
 
-
 def try_handshake(handshake):
-  final_line = ""
   lines = handshake.splitlines()
   for line in lines:
       parts = line.partition(": ")
       if parts[0] == "Sec-WebSocket-Key":
           key = parts[2]
-  accept_key = base64.b64encode(hashlib.sha1(key+MAGIC).digest())
+  accept_key = base64.b64encode(hashlib.sha1(key+MAGIC_KEY).digest())
   return (
     "HTTP/1.1 101 Switching Protocols\r\n"
     "Upgrade: WebSocket\r\n"
@@ -33,7 +31,7 @@ def try_handshake(handshake):
     "Sec-WebSocket-Accept: " + accept_key + "\r\n\r\n")
 
 def handle(server_socket, addr):
-  
+  # the initial client request data recieved from the client when it opens up a socket connection
   data = server_socket.recv(BUFFER_SIZE)
   response = try_handshake(data)
   server_socket.sendto(response, addr)
@@ -47,14 +45,23 @@ def handle(server_socket, addr):
         print "No data"
         break
     print 'Data from', addr, ':', data
+    broadcast(data,addr)
 
   print 'Client closed:', addr
   lock.acquire()
-  clients.remove(server_socket)
+  clients_list.remove(server_socket)
   lock.release()
   server_socket.close()
 
-
+def broadcast(message, connection):
+    for i in range(0,len(active_clients)):
+        if active_clients[i]!=connection:
+            try:
+                print 'Sending to' + str(active_clients[i])
+                clients_list[i].send(message)
+            except:
+                clients_list[i].close()
+                 # if the link is broken, we remove the client
 
 def start_server():
 
@@ -80,11 +87,13 @@ def start_server():
 
   while 1:
     conn, addr = server_socket.accept()
-    print 'NEW CONNECTION ['+str(len(clients))+'], connected by ', addr
-    clients.append(conn)
+    print 'NEW CONNECTION ['+str(len(clients_list))+'], connected by ', addr
+    clients_list.append(conn)
+    active_clients.append(addr)
     threading.Thread(target = handle, args = (conn, addr)).start()
 
   
-clients = []
+clients_list = []
+active_clients = []
 start_server()
 

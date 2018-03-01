@@ -1,57 +1,30 @@
- function init()
-  {
-	document.myform.url.value = "ws://localhost:8000/"
-	document.myform.inputtext.value = "Hey there!"
-	document.myform.disconnectButton.disabled = true;
-  }
-  function doConnect()
-  {
-    websocket = new WebSocket(document.myform.url.value);
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt) };
-    websocket.onerror = function(evt) { onError(evt) };
-  }
-  function onOpen(evt)
-  {
-    writeToScreen("Connected To Server\n");
-	document.myform.connectButton.disabled = true;
-	document.myform.disconnectButton.disabled = false;
-  }
-  function onClose(evt)
-  {
-    writeToScreen("Disconnected from Server\n");
-	document.myform.connectButton.disabled = false;
-	document.myform.disconnectButton.disabled = true;
-  }
-  function onMessage(evt)
-  {
-    writeToScreen("response: " + evt.data + '\n');
-  }
-  function onError(evt)
-  {
-    writeToScreen('error: ' + evt.data + '\n');
-	websocket.close();
-	document.myform.connectButton.disabled = false;
-	document.myform.disconnectButton.disabled = true;
-  }
-  function doSend(message)
-  {
-    writeToScreen("sent: " + message + '\n');
-    websocket.send(message);
-  }
-  function writeToScreen(message)
-  {
-    document.myform.outputtext.value += message
-	document.myform.outputtext.scrollTop = document.myform.outputtext.scrollHeight;
-  }
-  window.addEventListener("load", init, false);
-   function sendText() {
-		doSend( document.myform.inputtext.value );
-   }
-  function clearText() {
-		document.myform.outputtext.value = "";
-   }
-   function doDisconnect() {
-		websocket.close();
-   }
+var ws;
+var socket_address = "ws://127.0.0.1:9877"
+
+function init() 
+{
+  var servermsg = document.getElementById("servermsg");
+  ws = new WebSocket(socket_address);
+  ws.onopen = function(){
+    servermsg.innerHTML = servermsg.innerHTML + "<br>Server connected";
+  };
+  ws.onmessage = function(e){
+    servermsg.innerHTML = servermsg.innerHTML + "<br><< Recieved data: " + e.data;
+  };
+  ws.onclose = function(){
+    servermsg.innerHTML = servermsg.innerHTML + "<br>Server disconnected";
+  };
+  
+}
+function postmsg()
+{
+  var text = document.getElementById("message").value;
+  ws.send(text);
+  servermsg.innerHTML = servermsg.innerHTML + "<br>>> Data sent: " + text;
+}
+
+
+//function connectionOpened(){}
+//function connectionClosed(){}
+//function messageRecieved() {}
+//function messageSend() {}
