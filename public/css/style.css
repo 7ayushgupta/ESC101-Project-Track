@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>chat Application</title>
-<style type="text/css">
-	body{
+body{
 font-weight: 400;
 font-family: sans-serif;
 }
@@ -13,10 +8,10 @@ color: green;
 text-align: center;
 font-size: 24px;
 }
-#content{
+#contentWrap{
 display: none;
 }
-#chatScreen{
+#chatWrap{
 padding: 10px;
 border: 2px solid black;
 width: 300px;
@@ -53,7 +48,7 @@ width: 250px;
 border-right: 2px solid #000;
 margin: 0 5px 0 0;
 }
-#chatScreen form input{
+#chatWrap form input{
 height: 15px;
 margin: 5px;
 padding: 5px 5px;
@@ -61,37 +56,10 @@ width: 250px;
 padding: 10px;
 box-sizing: border-box;
 }
-#content #onlineUsers{
+#contentWrap #users{
 margin-left: 320px;
 width: 200px;
 border: 1px solid black;
 background: linear-gradient(120deg, #eee, #fff);
  
 }
-</style>
-</head>
-<body>
-<h1>chat Application</h1>
- 
-<div id="login">
-<p>Enter a username:</p>
-<form id="formUsername">
-<input size="35" type="text" id="inputUsername" />
-<p id="error"></p>
-<input type="submit" value="Enter chatroom" />
-</form>
-</div>
-<div id="content">
-<div id="chatScreen">
-<div id="chat"><ul id="chatMessages"></ul></div>
-<form id="formSendMessage">
-<input type="text" id="inputMessage" placeholder="your message" />
-</form>
-</div>
-<div id="onlineUsers"></div>
-</div>
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
-</body>
-</html>

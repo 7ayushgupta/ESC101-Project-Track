@@ -1,12 +1,16 @@
-var exp = require('express')();	//webdev framework for nodejs
-var http = require('http').Server(exp);
+var express = require('express');
+var app = express();			//webdev framework for nodejs
+var path = require('path');
+var http = require('http').Server(app);
 var socketio = require('socket.io')(http);
 
-user_ids = [];
-
-exp.get('/', function(req, res){
+app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
+
+app.use(express.static("public"));
+
+user_ids = [];
 
 socketio.on('connection',function(socket){
 	socket.on('new user',function(data, callback){
@@ -24,7 +28,7 @@ socketio.on('connection',function(socket){
 	});
 	
 	function updateOnlineUsers(){
-		socketio.sockets.emit('usernames',user_ids);
+		socketio.emit('usernames',user_ids);
 	}
 
 	socket.on('chat message',function(msg){
