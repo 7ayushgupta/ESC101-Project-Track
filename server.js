@@ -13,6 +13,7 @@ app.use(express.static("public"));
 user_ids = [];
 
 socketio.on('connection',function(socket){
+
 	socket.on('new user',function(data, callback){
 		console.log('A new user is trying to connect');
 
@@ -25,6 +26,12 @@ socketio.on('connection',function(socket){
 			callback(true);
 			updateOnlineUsers();
 		}
+	});
+
+	socket.on('join room', function(room_id){
+		socket.join(room_id);
+		console.log(socket.user_id + ' has joined the room ' + room_id);
+		socketio.sockets.in(room_id).emit('roomJoin',{user_id:socket.user_id,room:room_id});
 	});
 	
 	function updateOnlineUsers(){

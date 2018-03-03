@@ -71,27 +71,37 @@ background: linear-gradient(120deg, #eee, #fff);
 </style>
 </head>
 <body>
-<h1>chat Application</h1>
+	<h1>chat Application</h1>
  
-<div id="login">
-<p>Enter a username:</p>
-<form id="formUsername">
-<input size="35" type="text" id="inputUsername" />
-<p id="error"></p>
-<input type="submit" value="Enter chatroom" />
-</form>
-</div>
-<div id="content">
-<div id="chatScreen">
-<div id="chat"><ul id="chatMessages"></ul></div>
-<form id="formSendMessage">
-<input type="text" id="inputMessage" placeholder="your message" />
-</form>
-</div>
-<div id="onlineUsers"></div>
-</div>
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
+	<div id="login">
+		<p>Enter a username:</p>
+		<form id="formUsername">
+			<input size="35" type="text" id="inputUsername" />
+			<p id="error"></p>
+			<input type="submit" value="Enter chatroom" />
+		</form>
+	</div>
+	<div id="content">
+		<div id="chatScreen">
+			<div id="chat">
+				<ul id="chatMessages"></ul>
+			</div>
+			<form id="formSendMessage">
+			<input type="text" id="inputMessage" placeholder="your message" />
+			</form>
+		</div>
+		<div id="onlineUsers">
+		</div>
+		<div id = "roomSelect">
+			<form id = "formRoom">
+				<input size = "35" type = "text" id = "inputRoom"/>
+				<p id="roomError"></p>
+				<input type="submit" value="Enter room"/>
+			</form>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
