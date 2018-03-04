@@ -1,80 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>chat Application</title>
-<style type="text/css">
-* {
-	font-weight: 400;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-}
-html, body {
-    height: 100%;
-    margin:0;
-    padding:0;
-}
-h1{
-	font-weight: 300;
-	color: blue;
-	text-align: center;
-	font-size: 24px;
-}
-#content{
-	display: none;
-	height:90%;
-}
-#chatScreen{
-	padding: 10px;
-	border: 2px solid black;
-	width: 80%;
-	box-sizing: border-box;
-	float: right;
-	height:inherit;
-}
-#chat{
-	overflow-y: scroll;
-	height: inherit;
-	border: 1px solid black;
-	background: white;
-	padding: 0 10px;
-	box-sizing: border-box;
-	margin-bottom: 15px;
-}
-#chat ul{
-	list-style-type: none;
-	padding: 0;	
-	float:left;
-	display: inline-block;
-}
-#chat ul li{
-	padding: 4px;
-	margin: 1px 0;
-	font-size: 10px;
-}
-#chat ul li b{
-	border-right: 2px solid #000;
-	margin: 0 5px 0 0;
-}
-#chatScreen form input{
-	height:30px;
-	width:100%;
-}
-#content #onlineUsers{
-	margin-left: 20px;
-	width: 15%;
-	float:left;
-	height:inherit;
-	border: 1px solid black;
-	background: linear-gradient(120deg, #eee, #fff);
- }
-</style>
+	<title>Chat Application</title>
+	<!--Writing all the required stuff in the meta description tags-->	
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name = "description" content="A simple web chat application for a course project">
+	<meta name = "keywords" content = "chat, iitk, esc101, ayush, advanced, track">
+	<meta name = "author" content="Ayush Gupta">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Quicksand">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+
 	<h1>Chat Application | ESC101 Project</h1>
  
 	<div id="login">
-		<p>Enter a username:</p>
+		<a>Enter a username:</a>
 		<form id="formUsername">
 			<input size="35" type="text" id="inputUsername" />
 			<p id="error"></p>
@@ -82,6 +25,7 @@ h1{
 		</form>
 	</div>
 	<div id="content">
+		<div id = "statusArea"></div>
 		<div id="chatScreen">
 			<div id="chat">
 				<ul id="chatMessages"></ul>

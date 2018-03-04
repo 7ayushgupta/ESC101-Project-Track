@@ -22,6 +22,8 @@ socketio.on('connection',function(socket){
 		}
 		else{
 			socket.user_id = data;
+			socket.room_id = "default";
+			socket.join(socket.room_id);
 			user_ids.push(socket.user_id);
 			callback(true);
 			socketio.emit('update', {update_type: "newUser", user_id:socket.user_id, room:"default"});
@@ -31,6 +33,7 @@ socketio.on('connection',function(socket){
 
 	socket.on('join room', function(room_id){
 		socket.join(room_id);
+		socket.room_id = room_id;
 		console.log(socket.user_id + ' has joined the room ' + room_id);
 		socketio.sockets.in(room_id).emit('update',{update_type :'roomJoining', user_id:socket.user_id,room:room_id});
 	});
@@ -41,7 +44,7 @@ socketio.on('connection',function(socket){
 
 	socket.on('chat message',function(msg){
 		console.log('message: ' + msg);
-		socketio.emit('chat message',{text:msg, user_id:socket.user_id});
+		socketio.sockets.in(socket.room_id).emit('chat message',{text:msg, user_id:socket.user_id});
 	});
 
 	socket.on('disconnect',function(data){

@@ -9,19 +9,22 @@ jQuery(function($){
 	var $chat = $('#chatMessages');
  	var $formRoom = $('#formRoom');
  	var $inputRoom = $('#inputRoom');
+ 	var $status = $('#statusArea');
 
  	var socket = io.connect();
 
 	$formUsername.submit(function(e){
 		e.preventDefault();
-		socket.emit('new user', $inputUsername.val(), function(data){
-		if(data){
-			$('#login').hide();
-			$('#content').show();
-		}
-		else {
-			$error.html('sorry, that username has been taken, try another one!');
-		}
+		var usernametry = $inputUsername.val();
+		socket.emit('new user', usernametry, function(data){
+			if(data){
+				$status.append("<p> Logged in as:" + usernametry + "</p>");
+				$('#login').hide();
+				$('#content').show();
+			}
+			else {
+				$error.html('sorry, that username has been taken, try another one!');
+			}
 		});
 		$inputUsername.val('');
 	});

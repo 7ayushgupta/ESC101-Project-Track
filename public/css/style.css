@@ -1,65 +1,66 @@
-body{
-font-weight: 400;
-font-family: sans-serif;
+* {
+	font-family: Quicksand;
+	font-weight: 400;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    margin:0;
+    padding:0;
 }
 h1{
-font-weight: 300;
-color: green;
-text-align: center;
-font-size: 24px;
+	font-weight: 300;
+	color: blue;
+	text-align: center;
+	font-size: 24px;
 }
-#contentWrap{
-display: none;
+#content{
+	display: none;
+	height:90%;
 }
-#chatWrap{
-padding: 10px;
-border: 2px solid black;
-width: 300px;
-box-sizing: border-box;
-background: lightyellow;
-float: left
+#chatScreen{
+	padding: 10px;
+	border: 2px solid black;
+	width: 80%;
+	box-sizing: border-box;
+	float: right;
+	height:inherit;
 }
 #chat{
-overflow-y: scroll;
-height: 500px;
-border: 1px solid green;
-width: 275px;
-background: white;
-padding: 0 10px;
-box-sizing: border-box;
-margin-bottom: 30px;
+	overflow-y: scroll;
+	height: inherit;
+	border: 1px solid black;
+	background: white;
+	padding: 0 10px;
+	box-sizing: border-box;
+	margin-bottom: 15px;
 }
 #chat ul{
-list-style-type: none;
-padding: 0;
-display: inline-block;
- 
+	list-style-type: none;
+	padding: 0;	
+	float:left;
+	display: inline-block;
 }
 #chat ul li{
-padding: 4px;
-box-sizing: border-box;
-border: 1px solid blue;
-background: lightblue;
-margin: 1px 0;
-font-size: 14px;
-width: 250px;
+	padding: 4px;
+	margin: 1px 0;
+	font-size: 10px;
 }
 #chat ul li b{
-border-right: 2px solid #000;
-margin: 0 5px 0 0;
+	border-right: 2px solid #000;
+	margin: 0 5px 0 0;
 }
-#chatWrap form input{
-height: 15px;
-margin: 5px;
-padding: 5px 5px;
-width: 250px;
-padding: 10px;
-box-sizing: border-box;
+#chatScreen form input{
+	height:30px;
+	width:100%;
 }
-#contentWrap #users{
-margin-left: 320px;
-width: 200px;
-border: 1px solid black;
-background: linear-gradient(120deg, #eee, #fff);
- 
-}
+#content #onlineUsers{
+	margin-left: 20px;
+	width: 15%;
+	float:left;
+	height:inherit;
+	border: 1px solid black;
+	background: linear-gradient(120deg, #eee, #fff);
+ }
