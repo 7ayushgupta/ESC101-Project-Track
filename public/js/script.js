@@ -39,7 +39,7 @@ jQuery(function($){
 	});
  
 	socket.on('usernames', function(data){
-		var html = '<h2>online users:</h2><hr />';
+		var html = '<h3>Online Users:</h3><hr/>';
 		for(i=0; i < data.length; i++){
 			html += data[i] + '<br />';
 		}
@@ -50,8 +50,16 @@ jQuery(function($){
 		$chat.append("<li><b>" + data.user_id + " </b>" + data.text + "</li><br/>");
 	});
 
-	socket.on('roomJoin', function(data){
-		console.log(data.user_id + ' has joined the room ' + data.room);
-		$chat.append(data.user_id + ' has joined the room ' + data.room + <br/>);
-	});
+
+	//a broad notification function which I intend to use more
+	socket.on('update', function(data){
+		if(data.update_type === "roomJoining" && data.room!="default"){
+			console.log(data.user_id + ' has joined the room ' + data.room);
+			$chat.append(data.user_id + ' has joined the room ' + data.room + "<br>");
+		}
+		if(data.update_type === "newUser"){
+			console.log(data.user_id + ' is online');
+			$chat.append(data.user_id + ' is now online <br>');
+		}
+	}); 
 })

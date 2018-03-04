@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();			//webdev framework for nodejs
 var path = require('path');
-var http = require('http').Server(app);
-var socketio = require('socket.io')(http);
+var server = require('http').Server(app);
+var socketio = require('socket.io')(server);
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
@@ -24,6 +24,7 @@ socketio.on('connection',function(socket){
 			socket.user_id = data;
 			user_ids.push(socket.user_id);
 			callback(true);
+			socketio.emit('update', {update_type: "newUser", user_id:socket.user_id, room:"default"});
 			updateOnlineUsers();
 		}
 	});
@@ -31,7 +32,7 @@ socketio.on('connection',function(socket){
 	socket.on('join room', function(room_id){
 		socket.join(room_id);
 		console.log(socket.user_id + ' has joined the room ' + room_id);
-		socketio.sockets.in(room_id).emit('roomJoin',{user_id:socket.user_id,room:room_id});
+		socketio.sockets.in(room_id).emit('update',{update_type :'roomJoining', user_id:socket.user_id,room:room_id});
 	});
 	
 	function updateOnlineUsers(){
@@ -53,6 +54,6 @@ socketio.on('connection',function(socket){
 });	
 
 
-http.listen(3000,function(){
+server.listen(3000,function(){
 	console.log('listening on *:3000');
 })
