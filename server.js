@@ -1,16 +1,24 @@
-var express = require('express');
-var app = express();			//webdev framework for nodejs
-var path = require('path');
-var server = require('http').Server(app);
-var socketio = require('socket.io')(server);
+'use strict';
+
+//Packages required by the chat app (dependencies)
+var express 	= require('express');
+var app 		= express();						//webdev framework for nodejs
+var path 		= require('path');
+var server 		= require('http').Server(app);		//starting http server
+var socketio 	= require('socket.io')(server);		//creating a layer of websockets
+var passport = require('passport'); 	
+var session = require('express-session');
+
+var sessionStore - new RedisStore({client:redis})
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
+	res.sendFile(__dirname + '/index.html');	//serving the initial file when connection is established
 });
 
-app.use(express.static("public"));
+app.use(express.static("public"));				//serving the css and js files in public 
 
-user_ids = [];
+const PORT = 3000;	
+user_ids = [];									//keep the userids in store, to check for repeated id
 
 socketio.on('connection',function(socket){
 
@@ -57,6 +65,7 @@ socketio.on('connection',function(socket){
 });	
 
 
-server.listen(3000,function(){
+
+server.listen(PORT,function(){					//starting the server
 	console.log('listening on *:3000');
 })
