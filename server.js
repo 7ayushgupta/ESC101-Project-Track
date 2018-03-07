@@ -6,10 +6,10 @@ var app 		= express();						//webdev framework for nodejs
 var path 		= require('path');
 var server 		= require('http').Server(app);		//starting http server
 var socketio 	= require('socket.io')(server);		//creating a layer of websockets
-var passport = require('passport'); 	
+var passport = require('passport'); 				//importing models for Passport
 var session = require('express-session');
-
-var sessionStore - new RedisStore({client:redis})
+var MongooseStorage = require('connect-mongo')(session);
+var db = require('../models');
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');	//serving the initial file when connection is established
@@ -17,9 +17,15 @@ app.get('/', function(req, res){
 
 app.use(express.static("public"));				//serving the css and js files in public 
 
+
 const PORT = 3000;	
 user_ids = [];									//keep the userids in store, to check for repeated id
 
+
+app.use(express.session({
+		secret = 'foo',
+		store = new MongooseStorage(options)
+}));
 socketio.on('connection',function(socket){
 
 	socket.on('new user',function(data, callback){

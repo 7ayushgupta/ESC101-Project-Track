@@ -60,5 +60,5 @@ user_scheme.methods.verifyPassword = function(password, callback){
 
 
 //finally create the model, combining everything
-var userModel = Mongoose.model('user', user_scheme);
-module.exports = userModel;
+var user_model = Mongoose.model('user', user_scheme);
+module.exports = user_model;
