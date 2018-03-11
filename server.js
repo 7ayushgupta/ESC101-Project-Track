@@ -6,10 +6,18 @@ var app 		= express();						//webdev framework for nodejs
 var path 		= require('path');
 var server 		= require('http').Server(app);		//starting http server
 var socketio 	= require('socket.io')(server);		//creating a layer of websockets
-var passport = require('passport'); 				//importing models for Passport
-var session = require('express-session');
-var MongooseStorage = require('connect-mongo')(session);
-var db = require('../models');
+var passport 	= require('passport'); 	
+var strategy 	= require('passport-local').Strategy;													//importing models for Passport
+var session 	= require('express-session');
+var mongoose 	= require('mongodb').MongoClient;
+
+mongoose.Promise= global.Promise;
+var user = require('./app/models/user');
+
+
+// mongoose.connect('mongodb://localhost/node-auth')
+// 	.then(() =>  console.log('connection succesful'))
+// 	.catch((err) => console.error(err));
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');	//serving the initial file when connection is established
@@ -17,15 +25,20 @@ app.get('/', function(req, res){
 
 app.use(express.static("public"));				//serving the css and js files in public 
 
-
 const PORT = 3000;	
-user_ids = [];									//keep the userids in store, to check for repeated id
+var user_ids = [];							//keep the userids in store, to check for repeated id
 
 
-app.use(express.session({
-		secret = 'foo',
-		store = new MongooseStorage(options)
-}));
+//initialising passport and setting sessions
+app.use(passport.initialize());
+app.use(passport.session())
+// passport.use(new strategy(user.authenticate()));
+// passport.serializeUser(user.serializeUser());
+// passport.deserializeUser(user.deserializeUser());
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended:false}));
+
 socketio.on('connection',function(socket){
 
 	socket.on('new user',function(data, callback){
