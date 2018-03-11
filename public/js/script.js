@@ -52,7 +52,10 @@ jQuery(function($){
 	socket.on('chat message', function(data){
 		$chat.append("<li><b>" + data.user_id + " </b>" + data.text + "</li><br/>");
 	});
-
+	socket.on('load old messages', function(docs){
+		for(var i = 0; i<docs.length; i++) 
+			$chat.append("<li><b>" + docs[i].username + " </b>" + docs[i].msg + "</li><br/>");
+	});
 
 	//a broad notification function which I intend to use more
 	socket.on('update', function(data){
