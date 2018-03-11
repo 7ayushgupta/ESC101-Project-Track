@@ -54,7 +54,7 @@ jQuery(function($){
 	});
 	socket.on('load old messages', function(docs){
 		for(var i = 0; i<docs.length; i++) 
-			$chat.append("<li><b>" + docs[i].username + " </b>" + docs[i].msg + "</li><br/>");
+			$chat.append("<li><b>" + docs[i].username + " </b>" + docs[i].msg + "</li>");
 	});
 
 	//a broad notification function which I intend to use more
@@ -65,7 +65,7 @@ jQuery(function($){
 		}
 		if(data.update_type === "newUser"){
 			console.log(data.user_id + ' is online');
-			$chat.append(data.user_id + ' is now online <br>');
+			$chat.append("<li>" + data.user_id + ' is now online </li><br>');
 		}
 	}); 
 })

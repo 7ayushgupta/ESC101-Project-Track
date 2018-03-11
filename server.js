@@ -25,8 +25,6 @@ var chatSchema = mongoose.Schema({
 	username: String,
 	msg: String
 });
-var Chat = mongoose.model('Messages', chatSchema); 
-
 
 socketio.on('connection',function(socket){
 
@@ -42,14 +40,14 @@ socketio.on('connection',function(socket){
 			socket.join(socket.room_id);
 			user_ids.push(socket.user_id);
 			callback(true);
-			socketio.emit('update', {update_type: "newUser", user_id:socket.user_id, room:"default"});
-			updateOnlineUsers();
 			Chat.find({}, function(err, docs){
 				if(err)
 					throw err;
 				console.log("Sending the older messages");
 				socket.emit('load old messages', docs);
 			});
+			socketio.emit('update', {update_type: "newUser", user_id:socket.user_id, room:"default"});
+			updateOnlineUsers();
 		}
 	});
 
