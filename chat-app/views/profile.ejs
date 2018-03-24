@@ -1,0 +1,23 @@
+<% include partials/head %>
+
+  <body>
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="text-center">
+        <h1 class=" fa fa-user"> Profile</h1><br>
+        <span><strong>user id</strong>: <%= user._id ? user._id : '' %></span><br>
+        <span class="fa fa-sign-out"><a href="/"> Sign out</a></span>
+        <hr>
+        <div class="jumbotron">
+          <% if (user.local.email != null) { %>
+            <img src="https://avatars.io/gravatar/<%= user.local.email %>" class="img-circle"><br>
+            <strong>email</strong>: <%= user.local.email %><br>
+          <% } %>
+        </div>
+      </div>
+      <button id = "lol">hi</button>
+    </div>
+
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+  </body>
+</html>
