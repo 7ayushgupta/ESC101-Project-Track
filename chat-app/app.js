@@ -14,7 +14,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');  
 var flash = require('connect-flash');  
 var session = require('express-session');
-
+var passportSocketiO = require('passport.socketio');
+var MongoStore = require('connect-mongo')(session);
+var sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 
@@ -30,7 +32,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());  
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: 'shhsecret' }));  
+
+
+app.use(session({ 
+    store: sessionStore,
+    secret: 'foxtrot',
+    key: 'lol'
+}));
+
 app.use(passport.initialize());  
 app.use(passport.session());  
 app.use(flash());
@@ -69,6 +78,13 @@ app.use(function(err, req, res, next) {
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+
+io.use(passportSocketiO.authorize({
+    cookieParser: cookieParser,
+    secret: 'foxtrot',
+    key: 'lol',
+    store: sessionStore
+}));
 
 io.on('connection', function(socket){
     console.log("New connection found. Socket_Id: " + socket.id);
