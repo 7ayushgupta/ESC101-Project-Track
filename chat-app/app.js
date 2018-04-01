@@ -88,12 +88,17 @@ io.use(passportSocketiO.authorize({
 
 io.on('connection', function(socket){
     console.log("New connection found. Socket_Id: " + socket.id);
+    var emailId = socket.request.user.local.email;
+    console.log("Email Id:" + emailId);
+    var userId = emailId.match(/^([^@]*)@/)[1];
+    console.log("UserID: " + userId);
 
     var requireAuthentication = function(req, res, next) {
     if (req.isAuthenticated()) {
         console.log("haan");
         return next();
     }
+
     // send the error as JSON to be nice to clients
     res.send(401, {
         error: "Unauthorized"
@@ -106,7 +111,7 @@ io.on('connection', function(socket){
 
     socket.on('chat message', function(message){
         console.log(message);
-        io.emit('chat message', {text: message, user_id:socket.id});
+        io.emit('chat message', {text: message, user_id:userId});
     });
 
 
