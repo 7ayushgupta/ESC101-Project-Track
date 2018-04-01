@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');  
 var users = require('./routes/users');
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 4000;
 
 var passport = require('passport');  
 var LocalStrategy = require('passport-local').Strategy;  
@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());  
 app.use(flash());
 
-app.use('/', routes);  
+app.use('/', routes); 
 app.use('/users', users);
 
 require('./config/passport')(passport);
@@ -45,6 +45,9 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
+
 if (app.get('env') === 'development') {  
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -54,7 +57,8 @@ if (app.get('env') === 'development') {
     });
   });
 }
-app.use(function(err, req, res, next) {  
+app.use(function(err, req, res, next) { 
+  console(req); 
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -62,18 +66,38 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
-    console.log("New connection found");
+    console.log("New connection found. Socket_Id: " + socket.id);
 
-    socket.on('connect', function(){
-        console.log("clasdasd");
+    var requireAuthentication = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        console.log("haan");
+        return next();
+    }
+    // send the error as JSON to be nice to clients
+    res.send(401, {
+        error: "Unauthorized"
     });
+    };
+
+    app.get('/data', function(data){
+        console.log(data);
+    });
+
+    socket.on('chat message', function(message){
+        console.log(message);
+        io.emit('chat message', {text: message, user_id:socket.id});
+    });
+
+
+
 });
 
+server.listen(port);
 
-server.listen(port);  
 module.exports = app;  
 
