@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Raleway:300);
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -6,19 +6,19 @@
 
 body {
   background: #C5DDEB;
-  font-family: "Roboto", sans-serif;
+  font-family: "Raleway", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;   
 }
 
 .container {
   margin: 2% auto;
-  width: 760px;
+  width: 100%;
   background: #444753;
 }
 
 .users-list {
-  width: 270px;
+  width: 70%;
   float: left;
 }
 .users-list .search {
@@ -58,7 +58,7 @@ body {
   color: #92959E;
 }
 .chat, .room {
-  width: 490px;
+  width: 80%;
   float: left;
   background: #F2F5F8;
   color: #434651;

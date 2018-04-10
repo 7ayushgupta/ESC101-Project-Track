@@ -18,6 +18,11 @@ router.get('/profile', isLoggedIn, function(req, res) {
   res.render('profile.ejs', { user: req.user });
 });
 
+
+router.get('/rooms', isLoggedIn, function(req, res) { 
+  res.render('rooms.ejs', { user: req.user });
+});
+
 router.get('/logout', function(req, res) {  
   req.logout();
   res.redirect('/');
@@ -30,7 +35,7 @@ router.post('/signup', passport.authenticate('local-signup', {
 }));
 
 router.post('/login', passport.authenticate('local-login', {  
-  successRedirect: '/profile',
+  successRedirect: '/rooms',
   failureRedirect: '/login',
   failureFlash: true,
 }));

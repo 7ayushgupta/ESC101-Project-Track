@@ -14,6 +14,8 @@ jQuery(function($){
  	var $formRoom = $('#formRoom');
  	var $inputRoom = $('#inputRoom');
  	var $status = $('#statusArea');
+ 	var $createRoom = $('#createRoom');
+ 	var $createRoomForm = $('#createRoomForm');
 
  	var socket = io.connect();
 
@@ -22,6 +24,13 @@ jQuery(function($){
 		error.preventDefault();
 		socket.emit('chat message', $formSendMessage.val());
 		$formSendMessage.val('');
+	});
+
+	$createRoom.click(function(error){
+		console.log("Create Room button pressed, with val: " + $createRoomForm.val());
+		error.preventDefault();
+		socket.emit('createRoom', $createRoomForm.val());
+		$createRoomForm.val('');
 	});
  
 	socket.on('usernames', function(data){
@@ -46,7 +55,7 @@ jQuery(function($){
 		if(data.update_type === "roomJoining" && data.room!="default"){
 			console.log(data.user_id + ' has joined the room ' + data.room);
 			$chat.append(data.user_id + ' has joined the room ' + data.room + "<br>");
-		}
+		} 	
 		if(data.update_type === "newUser"){
 			console.log(data.user_id + ' is online');
 			$chat.append("<li>" + data.user_id + ' is now online </li><br>');

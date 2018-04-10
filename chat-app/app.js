@@ -19,6 +19,7 @@ var MongoStore = require('connect-mongo')(session);
 var sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
+var Room = require('./models/room');
 
 var app = express();
 
@@ -31,8 +32,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));  
 app.use(cookieParser());  
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 
 app.use(session({ 
     store: sessionStore,
@@ -54,9 +53,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-
-
 if (app.get('env') === 'development') {  
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -77,7 +73,7 @@ app.use(function(err, req, res, next) {
 
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
 
 io.use(passportSocketiO.authorize({
     cookieParser: cookieParser,
@@ -86,6 +82,9 @@ io.use(passportSocketiO.authorize({
     store: sessionStore
 }));
 
+
+
+
 io.on('connection', function(socket){
     console.log("New connection found. Socket_Id: " + socket.id);
     var emailId = socket.request.user.local.email;
@@ -93,25 +92,27 @@ io.on('connection', function(socket){
     var userId = emailId.match(/^([^@]*)@/)[1];
     console.log("UserID: " + userId);
 
-    var requireAuthentication = function(req, res, next) {
-    if (req.isAuthenticated()) {
-        console.log("haan");
-        return next();
-    }
-
-    // send the error as JSON to be nice to clients
-    res.send(401, {
-        error: "Unauthorized"
-    });
-    };
-
-    app.get('/data', function(data){
-        console.log(data);
-    });
-
     socket.on('chat message', function(message){
         console.log(message);
         io.emit('chat message', {text: message, user_id:userId});
+    });
+
+     socket.on('createRoom', function(title) {
+      console.log("A room needs to be created :" + title);
+      Room.findOne({'title': new RegExp('^' + title + '$', 'i')}, function(err, room){
+        if(err) throw err;
+        if(room){
+          socket.emit('updateRoomsList', { error: 'Room title already exists.' });
+        } else {
+          Room.create({ 
+            title: title
+          }, function(err, newRoom){
+            if(err) throw err;
+            socket.emit('updateRoomsList', newRoom);
+            socket.broadcast.emit('updateRoomsList', newRoom);
+          });
+        }
+      });
     });
 
 
@@ -121,4 +122,4 @@ io.on('connection', function(socket){
 server.listen(port);
 
 module.exports = app;  
-
+  
