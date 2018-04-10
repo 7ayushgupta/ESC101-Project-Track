@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');  
-var users = require('./routes/users');
 
 var port = process.env.PORT || 4000;
 
@@ -19,7 +18,7 @@ var MongoStore = require('connect-mongo')(session);
 var sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
-var Room = require('./models/room');
+var Room = require('./models/room').roomModel;
 
 var app = express();
 
@@ -44,8 +43,6 @@ app.use(passport.session());
 app.use(flash());
 
 app.use('/', routes); 
-app.use('/users', users);
-
 require('./config/passport')(passport);
 
 app.use(function(req, res, next) {  
@@ -108,6 +105,7 @@ io.on('connection', function(socket){
             title: title
           }, function(err, newRoom){
             if(err) throw err;
+            console.log("A new room created");
             socket.emit('updateRoomsList', newRoom);
             socket.broadcast.emit('updateRoomsList', newRoom);
           });

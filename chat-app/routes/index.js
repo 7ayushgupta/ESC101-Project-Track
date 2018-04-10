@@ -1,6 +1,7 @@
 var express = require('express');  
 var passport = require('passport');  
 var router = express.Router();
+var Room = require('../models/room').roomModel;
 
 router.get('/', function(req, res, next) {  
   res.render('index', { title: 'Express' });
@@ -18,10 +19,26 @@ router.get('/profile', isLoggedIn, function(req, res) {
   res.render('profile.ejs', { user: req.user });
 });
 
+router.get('/chat/:id', [isLoggedIn, function(req, res, next) {
+  var roomId = req.params.id;
+  Room.findById(roomId, function(err, room){
+    if(err) throw err;
+    if(!room){
+      return next(); 
+    }
+    res.render('chatroom', { user: req.user, room: room });
+  });
+  
+}]);
+
 
 router.get('/rooms', isLoggedIn, function(req, res) { 
-  res.render('rooms.ejs', { user: req.user });
-});
+    Room.find(function(error, rooms){
+      if(error) 
+        throw error;
+      res.render('rooms', {rooms});    
+    });
+  });
 
 router.get('/logout', function(req, res) {  
   req.logout();

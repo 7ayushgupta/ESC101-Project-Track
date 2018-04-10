@@ -28,13 +28,13 @@
 
         <div class="room-list">
           <ul>
-            <%/* if(rooms.length > 0) { %>
+            <% if(rooms.length > 0) { %>
               <% rooms.forEach(function(room) { %>
                   <a href="/chat/<%= room.id %>"><li class="room-item"><%= room.title %></li></a>
                 <% }); %>
             <% } else { %>
               <p class="message" style="text-align: center; padding: 0; margin: 0;">Create your first room!</p>
-            <% } */%>
+            <% } %>
           </ul>
         </div> <!-- end room-list -->
       </div> <!-- end room -->

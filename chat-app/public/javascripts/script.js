@@ -40,6 +40,19 @@ jQuery(function($){
 		}
 		$onlineUsers.html(html);
 	});
+
+	socket.on('updateRoomsList', function(room){
+		console.log(room);
+		var html = `<a href="/chat/${room._id}"><li class="room-item">${room.title}</li></a>`;
+		if(html === ''){ return; }
+  
+		if($(".room-list ul li").length > 0){
+		  $('.room-list ul').prepend(html);
+		}else{
+		  $('.room-list ul').html('').html(html);
+  }
+
+	});
  
 	socket.on('chat message', function(data){
 		console.log(data);
