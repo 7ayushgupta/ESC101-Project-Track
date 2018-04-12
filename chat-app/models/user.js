@@ -1,10 +1,13 @@
 var mongoose = require('mongoose');  
 var bcrypt   = require('bcrypt-nodejs');
 
+const DEFAULT_USER_PICTURE = "/images/user.jpg";
+
 var userSchema = mongoose.Schema({  
   local: {
     email: String,
     password: String,
+    picture: {type: String, default:DEFAULT_USER_PICTURE}
   },
 });
 

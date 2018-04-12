@@ -107,6 +107,7 @@ io.of('/chatroom').on('connection', function(socket) {
 
   // Join a chatroom
   socket.on('join', function(roomId) {
+
     Room.findById(roomId, function(err, room){
       if(err) throw err;
       if(!room){
@@ -127,12 +128,14 @@ io.of('/chatroom').on('connection', function(socket) {
           Room.getUsers(newRoom, socket, function(err, users, cuntUserInRoom){
             if(err) throw err;
             
+            console.log(users);
             // Return list of all user connected to the room to the current user
             socket.emit('updateUsersList', users, true);
 
             // Return the current user to other connecting sockets in the room 
             // ONLY if the user wasn't connected already to the current room
             if(cuntUserInRoom === 1){
+              console.log(users); 
               socket.broadcast.to(newRoom.id).emit('updateUsersList', users[users.length - 1]);
             }
           });

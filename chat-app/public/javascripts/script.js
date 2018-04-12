@@ -36,6 +36,8 @@ var app = {
 
   chat: function(roomId, username){
     
+    console.log(username);
+
     var socket = io('/chatroom', { transports: ['websocket'] });
 
       // When socket connects, join the current chatroom
@@ -112,14 +114,16 @@ var app = {
         if(users.constructor !== Array){
           users = [users];
         }
-
         var html = '';
         for(var user of users) {
+          console.log("Online user: ");
+          console.log(user);
+          var username = user.local.email.split("@")[0];
           user.username = this.encodeHTML(user.username);
           html += `<li class="clearfix" id="user-${user._id}">
-                     <img src="${user.picture}" alt="${user.username}" />
+                     <img src="${user.local.picture}" alt="${user.username}" />
                      <div class="about">
-                        <div class="name">${user.username}</div>
+                        <div class="name">${username}</div>
                         <div class="status"><i class="fa fa-circle online"></i> online</div>
                      </div></li>`;
         }
@@ -137,6 +141,7 @@ var app = {
 
     // Adding a new message to chat history
     addMessage: function(message){
+      console.log(message);
       message.date      = (new Date(message.date)).toLocaleString();
       message.username  = this.encodeHTML(message.username);
       message.content   = this.encodeHTML(message.content);

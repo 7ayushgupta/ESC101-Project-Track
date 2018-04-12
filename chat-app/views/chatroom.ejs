@@ -43,6 +43,9 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/javascripts/script.js"></script>
     <script>$(function(){
-      app.chat('<%= room.id %>', '<%= user.username %>')});</script>
+      var str = '<%=user.email%>';
+      var username = str.split("@")[0];      
+      app.chat('<%= room.id %>',username);
+      });</script>
   </body>
 </html>

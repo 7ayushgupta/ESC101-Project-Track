@@ -26,7 +26,7 @@ router.get('/chat/:id', [isLoggedIn, function(req, res, next) {
     if(!room){
       return next(); 
     }
-    res.render('chatroom', { user: req.user, room: room });
+    res.render('chatroom', { user: req.user.local, room: room });
   });
   
 }]);
@@ -46,7 +46,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.post('/signup', passport.authenticate('local-signup', {  
-  successRedirect: '/profile',
+  successRedirect: '/chatroom',
   failureRedirect: '/signup',
   failureFlash: true,
 }));
