@@ -18,7 +18,7 @@ var MongoStore = require('connect-mongo')(session);
 var sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
-var Room = require('./models/room').roomModel;
+var Room = require('./models/room');
 
 var app = express();
 

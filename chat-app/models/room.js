@@ -43,8 +43,9 @@ var findByIdAndUpdate = function(id, data, callback){
  */
 var addUser = function(room, socket, callback){
 	
+	console.log("add users function " + socket.request.user._id);
 	// Get current user's id
-	var userId = socket.request.session.passport.user;
+	var userId = socket.request.user._id;
 
 	// Push a new connection object(i.e. {userId + socketId})
 	var conn = { userId: userId, socketId: socket.id};
@@ -59,8 +60,10 @@ var addUser = function(room, socket, callback){
 var getUsers = function(room, socket, callback){
 
 	var users = [], vis = {}, cunt = 0;
-	var userId = socket.request.session.passport.user;
+	console.log("get users function " + socket.request.user._id);
 
+	var userId = socket.request.user._id;
+	var email = socket.request.user.local.email;
 	// Loop on room's connections, Then:
 	room.connections.forEach(function(conn){
 
@@ -80,7 +83,7 @@ var getUsers = function(room, socket, callback){
 	// Get the user object by id, and assign it to users array.
 	// So, users array will hold users' objects instead of ids.
 	users.forEach(function(userId, i){
-		User.findById(userId, function(err, user){
+			User.findOne({ 'local.email':  email }, function(err, user){
 			if (err) { return callback(err); }
 			users[i] = user;
 			if(i + 1 === users.length){
@@ -97,7 +100,9 @@ var getUsers = function(room, socket, callback){
 var removeUser = function(socket, callback){
 
 	// Get current user's id
-	var userId = socket.request.session.passport.user;
+	console.log("remove User " + socket.request.user._id);
+
+	var userId = socket.request.user._id;
 
 	find(function(err, rooms){
 		if(err) { return callback(err); }
