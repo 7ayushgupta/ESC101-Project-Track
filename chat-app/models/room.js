@@ -139,5 +139,5 @@ module.exports = {
 	findById, 
 	addUser, 
 	getUsers, 
-	removeUser 
+	removeUser,
 };

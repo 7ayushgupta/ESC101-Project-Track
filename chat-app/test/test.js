@@ -1,20 +1,16 @@
-var supertest = require("supertest");
-var should = require("should")
+var chai = require('chai');
+var chaiHttp = require('chai-http');
+var server = require('../app.js');
+var should = require('should');
+var request = require('supertest');
+var app = server.app;
+chai.use(chaiHttp);
 
-//This agent is needed for referring to the PORT where the program is running
-var server = supertest.agent("http://localhost:4000");
-
-//Unit test begins, describe is used to actually describe
-describe("Sample unit test", function(){
-    
-    it("should return homepage", function(done){
-        server
-        .get("/")
-        .expect("Content-Type",'text/html; charset=utf-8')
-        .end(function(err, res){
-            if(err)
-                return done(err)
-            done();
-        })
-    })
+describe('GET /homepage', function() {
+  it('respond with page', function(done) {
+    request(app)
+      .get('/')
+      .expect('Content-Type', /html/)
+      .expect(200, done);
+  });
 });
