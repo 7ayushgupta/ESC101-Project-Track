@@ -46,7 +46,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.post('/signup', passport.authenticate('local-signup', {  
-  successRedirect: '/chatroom',
+  successRedirect: '/rooms',
   failureRedirect: '/signup',
   failureFlash: true,
 }));
