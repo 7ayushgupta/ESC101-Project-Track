@@ -19,6 +19,7 @@ var sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 var Room = require('./models/room');
+var Chat = require('./models/chat').message;
 
 var app = express();
 
@@ -104,6 +105,7 @@ io.of('/rooms').on('connection', function(socket) {
 
 // Chatroom namespace
 io.of('/chatroom').on('connection', function(socket) {
+  var userId = socket.request.user._id;
 
   // Join a chatroom
   socket.on('join', function(roomId) {
@@ -127,10 +129,18 @@ io.of('/chatroom').on('connection', function(socket) {
 
           Room.getUsers(newRoom, socket, function(err, users, cuntUserInRoom){
             if(err) throw err;
-            
-            console.log(users);
+            Chat.find({}, function(err, docs){
+              if(err)
+                throw err;
+              console.log(docs);
+              console.log("Sending the older messages");
+              socket.emit('load old messages', docs);
+            });
             // Return list of all user connected to the room to the current user
             socket.emit('updateUsersList', users, true);
+
+            
+            
 
             // Return the current user to other connecting sockets in the room 
             // ONLY if the user wasn't connected already to the current room
@@ -154,7 +164,7 @@ io.of('/chatroom').on('connection', function(socket) {
 
     // Find the room to which the socket is connected to, 
     // and remove the current user + socket from this room
-    Room.removeUser(socket, function(err, room, userId, cuntUserInRoom){
+    Room.removeUser(socket, function(err, room, cuntUserInRoom){
       if(err) throw err;
 
       // Leave the room channel
@@ -170,7 +180,16 @@ io.of('/chatroom').on('connection', function(socket) {
 
   // When a new message arrives
   socket.on('newMessage', function(roomId, message) {
-
+    console.log(message);
+    var newMsg = new Chat({
+      message_body: message.content, 
+      user: message.username,
+      room: roomId,
+      created_at: message.date
+    });
+	 newMsg.save(function(err){
+			if(err)throw err;
+		  });
     // No need to emit 'addMessage' to the current socket
     // As the new message will be added manually in 'main.js' file
     // socket.emit('addMessage', message);

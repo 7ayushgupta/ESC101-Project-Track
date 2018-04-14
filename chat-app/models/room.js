@@ -2,19 +2,14 @@
 
 var Mongoose  = require('mongoose');
 
-/**
- * Each connection object represents a user connected through a unique socket.
- * Each connection object composed of {userId + socketId}. Both of them together are unique.
- *
- */
-var RoomSchema = new Mongoose.Schema({
-    title: { type: String, required: true },
-    connections: { type: [{ userId: String, socketId: String }]}
-});
+// var RoomSchema = new Mongoose.Schema({
+//     title: { type: String, required: true },
+//     connections: { type: [{ userId: String, socketId: String }]}
+// });
 
-var roomModel = Mongoose.model('room', RoomSchema);
-
-var User 		= require('./user');
+// var roomModel = Mongoose.model('room', RoomSchema);
+var roomModel = require('./roomModel').roomModel;
+var User 		= require('./user').User;
 
 var create = function (data, callback){
 	var newRoom = new roomModel(data);

@@ -74,6 +74,17 @@ var app = {
           }
         });
 
+        socket.on('load old messages', function(docs){
+          console.log(docs);
+          for(var i =0; i<docs.length; i++)
+            var temp = {
+              date: docs[i].created_at,
+              content: docs[i].message_body,
+              username: docs[i].user,
+            }
+            app.helpers.addMessage(temp);
+        });
+
         // Whenever a user leaves the current room, remove the user from users list
         socket.on('removeUser', function(userId) {
           $('li#user-' + userId).remove();
@@ -145,6 +156,7 @@ var app = {
 
     // Adding a new message to chat history
     addMessage: function(message){
+      if(message){
       console.log(message);
       message.date      = (new Date(message.date)).toLocaleString();
       message.username  = this.encodeHTML(message.username);
@@ -161,6 +173,7 @@ var app = {
 
       // Keep scroll bar down
       $(".chat-history").animate({ scrollTop: $('.chat-history')[0].scrollHeight}, 1000);
+      }
     },
 
     // Update number of rooms
