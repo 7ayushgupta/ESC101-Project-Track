@@ -115,7 +115,10 @@ var app = {
           users = [users];
         }
         var html = '';
+        console.log("Array of users:");
+        console.log(users);
         for(var user of users) {
+          if(user.local){
           console.log("Online user: ");
           console.log(user);
           var username = user.local.email.split("@")[0];
@@ -127,6 +130,7 @@ var app = {
                         <div class="status"><i class="fa fa-circle online"></i> online</div>
                      </div></li>`;
         }
+      }
 
         if(html === ''){ return; }
 

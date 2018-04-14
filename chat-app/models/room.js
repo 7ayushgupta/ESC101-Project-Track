@@ -66,7 +66,7 @@ var getUsers = function(room, socket, callback){
 	var email = socket.request.user.local.email;
 	// Loop on room's connections, Then:
 	room.connections.forEach(function(conn){
-
+		console.log(conn);
 		// 1. Count the number of connections of the current user(using one or more sockets) to the passed room.
 		if(conn.userId === userId){
 			cunt++;

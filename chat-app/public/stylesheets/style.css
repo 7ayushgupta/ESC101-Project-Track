@@ -1,12 +1,12 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Raleway:300);
 
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
 body {
-  background: #C5DDEB;
-  font-family: "Roboto", sans-serif;
+  background: #41f4c7;
+  font-family: "Raleway", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;   
 }
@@ -14,9 +14,8 @@ body {
 .container {
   margin: 2% auto;
   width: 760px;
-  background: #444753;
+  background: #510010;
 }
-
 .users-list {
   width: 270px;
   float: left;
@@ -92,7 +91,7 @@ body {
   padding: 10px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
-  max-height: 580px;
+  max-height: 400px;
 }
 .chat .chat-history .message-data {
   margin-bottom: 15px;
@@ -120,7 +119,7 @@ body {
   width: 0;
   position: absolute;
   pointer-events: none;
-  border-bottom-color: #86BB71;
+  border-bottom-color: #86BB72;
   border-width: 10px;
   margin-left: -10px;
 }
@@ -259,7 +258,7 @@ ul {
   text-align: center;
 }
 .room .room-list .room-item {
-  background: #86BB71;
+  background: #f46d41;
 }
 .room .room-list a {
   text-decoration: none;
