@@ -200,4 +200,4 @@ io.of('/chatroom').on('connection', function(socket) {
 });
 server.listen(port);
 
-module.exports = app;  
+module.exports = server;

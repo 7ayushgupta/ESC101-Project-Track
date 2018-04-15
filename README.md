@@ -17,9 +17,11 @@ Mentored by: Govind Gopakumar (@govig)
 
 * 6th March: Implementing Passport.js for session rememberance, and authentication. Quite a lot of work. Working on Routes, since if authentication is added, the server needs to handle if someone unauthenticated doesn't get sensitive (:P) information.
 
-*10th April: Fixed up a lot of things. 
+* 27th March: Fixed up a lot of things, implemented Passport.js and sessions completely.
 
-#### Basic File Structure
+* 10th April: Implememted room-wise history of messages, and improved GUI.
+
+### Basic File Structure
 ~~~
 .
 ├── chat-app
@@ -30,11 +32,15 @@ Mentored by: Govind Gopakumar (@govig)
 │   │   ├── database.js
 │   │   └── passport.js
 │   ├── models
+│   │   ├── chat.js
 │   │   ├── room.js
+│   │   ├── roomModel.js
 │   │   └── user.js
 │   ├── npm-debug.log
+│   ├── package.json
 │   ├── public
 │   │   ├── images
+│   │   │   └── user.jpg
 │   │   ├── javascripts
 │   │   │   └── script.js
 │   │   └── stylesheets
@@ -42,16 +48,31 @@ Mentored by: Govind Gopakumar (@govig)
 │   ├── routes
 │   │   └── index.js
 │   ├── test
-│   │   ├── app_spec.js
-│   │   └── test.js
+│   │   ├── authentication_check.js
+│   │   └── server_checks.js
 │   └── views
 │       ├── chatroom.ejs
 │       ├── error.ejs
 │       ├── index.ejs
 │       ├── login.ejs
-│       ├── partials
-│       │   └── head.ejs
 │       ├── rooms.ejs
 │       └── signup.ejs
-└── package.json
+└── README.md
+~~~
+
+### For local setup
+
+* Clown the repository onto your computer.
+
+* Set up the installs using:
+
+~~~
+npm install
+mongo
+npm start
+~~~
+
+For implementing the test cases, (used Mocha and Chai-assertion library) for this. Run:
+~~~
+npm test
 ~~~
