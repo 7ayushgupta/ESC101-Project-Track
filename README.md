@@ -1,9 +1,13 @@
-# Chat Appication
-### ESC101 Advance Track Project 
+# Chat Application
+### ESC101 Advanced Track Project 
 
-This project aims to provide basic chat functionality to the people in the campus of __Indian Institute Of Technology, Kanpur__. This project is for ESC101A (Introduction to Computing)
+This project aims to provide basic chat functionality to a certain group of people. This project is for ESC101A (Introduction to Computing).
 
 Mentored by: Govind Gopakumar (@govig)
+
+### Deployed On:
+
+(Chat-Application)[chat-esc101.herokuapp.com]
 
 ### Timeline
 
@@ -60,19 +64,6 @@ Mentored by: Govind Gopakumar (@govig)
 └── README.md
 ~~~
 
-### For local setup
+### Unit Testing
 
-* Clown the repository onto your computer.
-
-* Set up the installs using:
-
-~~~
-npm install
-mongo
-npm start
-~~~
-
-* For implementing the test cases, (used Mocha and Chai-assertion library) for this. Run:
-~~~
-npm test
-~~~
+Tests have been implemented using the Mocha library, and Chai-assertion library.
