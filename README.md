@@ -3,7 +3,7 @@
 
 This project aims to provide basic chat functionality to a certain group of people. This project is for ESC101A (Introduction to Computing).
 
-Mentored by: Govind Gopakumar (@govig)
+Mentored by: Govind Gopakumar (@govg)
 
 ### Deployed On:
 
