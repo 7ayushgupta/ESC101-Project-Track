@@ -72,7 +72,7 @@ mongo
 npm start
 ~~~
 
-For implementing the test cases, (used Mocha and Chai-assertion library) for this. Run:
+* For implementing the test cases, (used Mocha and Chai-assertion library) for this. Run:
 ~~~
 npm test
 ~~~

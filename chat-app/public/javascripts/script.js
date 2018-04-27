@@ -76,13 +76,14 @@ var app = {
 
         socket.on('load old messages', function(docs){
           console.log(docs);
-          for(var i =0; i<docs.length; i++)
+          for(var i =0; i<docs.length; i++){
             var temp = {
               date: docs[i].created_at,
               content: docs[i].message_body,
               username: docs[i].user,
             }
             app.helpers.addMessage(temp);
+          }
         });
 
         // Whenever a user leaves the current room, remove the user from users list
@@ -125,6 +126,7 @@ var app = {
         if(users.constructor !== Array){
           users = [users];
         }
+        var temp = [];
         var html = '';
         console.log("Array of users:");
         console.log(users);
@@ -132,17 +134,19 @@ var app = {
           if(user.local){
           console.log("Online user: ");
           console.log(user);
-          var username = user.local.email.split("@")[0];
-          user.username = this.encodeHTML(user.username);
-          html += `<li class="clearfix" id="user-${user._id}">
-                     <img src="${user.local.picture}" alt="${user.username}" />
-                     <div class="about">
-                        <div class="name">${username}</div>
-                        <div class="status"><i class="fa fa-circle online"></i> online</div>
-                     </div></li>`;
+          if(temp.indexOf(user)===-1){
+            temp.push(user);
+            var username = user.local.email.split("@")[0];
+            user.username = this.encodeHTML(user.username);
+            html += `<li class="clearfix" id="user-${user._id}">
+                      <img src="${user.local.picture}" alt="${user.username}" />
+                      <div class="about">
+                          <div class="name">${username}</div>
+                          <div class="status"><i class="fa fa-circle online"></i> online</div>
+                      </div></li>`;
+          }
         }
       }
-
         if(html === ''){ return; }
 
         if(clear != null && clear == true){

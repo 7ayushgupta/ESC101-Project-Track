@@ -11,6 +11,7 @@ var userSchema = mongoose.Schema({
   },
 });
 
+
 userSchema.methods.generateHash = function(password) {  
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
@@ -19,7 +20,13 @@ userSchema.methods.validPassword = function(password) {
 };
 var User = mongoose.model('User', userSchema);
 
+var findById = function (id, callback){
+	User.findById(id, callback);
+};
+
+
 module.exports = {
   User,
-  userSchema
+  userSchema,
+  findById
 }

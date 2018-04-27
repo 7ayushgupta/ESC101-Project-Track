@@ -314,6 +314,11 @@ a.logout-btn{
 a.logout-btn:hover, a.logout-btn:active, a.logout-btn:focus {
   background-color: rgb(245, 106, 99);
 }
+span.adduser-btn:
+{
+  background-color: #676c75;
+}
+
 .controls {
   width: 270px;
   float: left;
