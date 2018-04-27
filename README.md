@@ -7,7 +7,7 @@ Mentored by: Govind Gopakumar (@govig)
 
 ### Deployed On:
 
-(Chat-Application)[chat-esc101.herokuapp.com]
+[Chat-Application](chat-esc101.herokuapp.com)
 
 ### Timeline
 
