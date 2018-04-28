@@ -1,3 +1,7 @@
+/*
+A basic MongoDB Schema created for handling the chat messages
+This collection will handle the storage of the chats
+*/
 var mongoose = require('mongoose');
 var room = require('./roomModel').RoomSchema;
 var user = require('./user').userSchema;

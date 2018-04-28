@@ -1,3 +1,11 @@
+/*
+This is a test written for checking the routing facilities
+
+In this, we try opening up various pages, and a response is recieved 
+depending on whether it was okay, to do that or not.
+
+*/
+
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../app.js');

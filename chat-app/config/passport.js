@@ -1,7 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;  
 var User = require('../models/user').User;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 module.exports = function(passport) {  
+  
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });
@@ -36,7 +38,25 @@ module.exports = function(passport) {
       });
     });
   }));
+  
+  
+  /*
+  This commented out code was for Facebook authentication. The main problem was 
+  registering the domain, at Facebook. 
 
+  passport.use(new FacebookStrategy({
+    clientID: '353945155126095',
+    clientSecret: '562e40a8e338433f083cdfe6686073ba',
+    callbackURL: "https://chat-esc101.herokuapp.com/rooms"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({local: { email: profile.id }}, function (err, user) {
+      return cb(err, user);
+    });
+  }
+  ));
+  */
+  
   passport.use('local-login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -54,3 +74,4 @@ module.exports = function(passport) {
     });
   }));
 };
+

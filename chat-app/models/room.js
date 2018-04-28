@@ -1,5 +1,9 @@
 'use strict';
 
+/*
+This file contains the various methods which are to be used 
+for handing rooms, and get the current users
+*/
 var Mongoose  = require('mongoose');
 var roomModel = require('./roomModel').roomModel;
 var User 		= require('./user').User;
@@ -25,13 +29,10 @@ var findByIdAndUpdate = function(id, data, callback){
 	roomModel.findByIdAndUpdate(id, data, { new: true }, callback);
 }
 
-/**
- * Add a user along with the corresponding socket to the passed room
- *
- */
+//Add a user along with the corresponding socket to the passed room
 var addUser = function(room, socket, callback){
 	
-	console.log("add users function " + socket.request.user._id);
+	//console.log("add users function " + socket.request.user._id);
 	// Get current user's id
 	var userId = socket.request.user._id;
 
@@ -41,23 +42,19 @@ var addUser = function(room, socket, callback){
 	room.save(callback);
 }
 
-/**
- * Get all users in a room
- *
- */
+//Get all users in a room
 var getUsers = function(room, socket, callback){
 
-	var users = [], vis = {}, cunt = 0;
-	console.log("get users function " + socket.request.user._id);
+	var users = [], vis = {}, current = 0;
 
 	var userId = socket.request.user._id;
 	var email = socket.request.user.local.email;
 	// Loop on room's connections, Then:
 	room.connections.forEach(function(conn){
-		console.log(conn);
+		//console.log(conn);
 		// 1. Count the number of connections of the current user(using one or more sockets) to the passed room.
 		if(conn.userId === userId){
-			cunt++;
+			current++;
 		}
 
 		// 2. Create an array(i.e. users) contains unique users' ids
@@ -75,16 +72,13 @@ var getUsers = function(room, socket, callback){
 			if (err) { return callback(err); }
 			users[i] = user;
 			if(i + 1 === users.length){
-				return callback(null, users, cunt);
+				return callback(null, users, current);
 			}
 		});
 	});
 }
 
-/**
- * Remove a user along with the corresponding socket from a room
- *
- */
+//Remove a user along with the corresponding socket from a room
 var removeUser = function(socket, callback){
 
 	// Get current user's id
@@ -97,13 +91,13 @@ var removeUser = function(socket, callback){
 
 		// Loop on each room, Then:
 		rooms.every(function(room){
-			var pass = true, cunt = 0, target = 0;
+			var pass = true, current = 0, target = 0;
 
 			// For every room, 
 			// 1. Count the number of connections of the current user(using one or more sockets).
 			room.connections.forEach(function(conn, i){
 				if(conn.userId === userId){
-					cunt++;
+					current++;
 				}
 				if(conn.socketId === socket.id){
 					pass = false, target = i;
@@ -115,7 +109,7 @@ var removeUser = function(socket, callback){
 			if(!pass) {
 				room.connections.id(room.connections[target]._id).remove();
 				room.save(function(err){
-					callback(err, room, userId, cunt);
+					callback(err, room, userId, current);
 				});
 			}
 

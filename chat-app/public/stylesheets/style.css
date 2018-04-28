@@ -13,11 +13,12 @@ body {
 
 .container {
   margin: 2% auto;
-  width: 760px;
+  width: 1300px;
+  height: 700px;
   background: #510010;
 }
 .users-list {
-  width: 270px;
+  width: 400px;
   float: left;
 }
 .users-list .search {
@@ -57,7 +58,7 @@ body {
   color: #92959E;
 }
 .chat, .room {
-  width: 490px;
+  width: 900px;
   float: left;
   background: #F2F5F8;
   color: #434651;
@@ -76,7 +77,7 @@ body {
 }
 .chat .chat-header .chat-room, .room .room-header .room-title {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 32px;
 }
 .chat .chat-header .chat-num-users, .room .room-header .room-num-rooms {
   color: #92959E;
@@ -91,14 +92,16 @@ body {
   padding: 10px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
-  max-height: 400px;
+  max-height: 600px;
+  height: 400px;
+
 }
 .chat .chat-history .message-data {
   margin-bottom: 15px;
 }
 .chat .chat-history .message-data-time {
   color: #a8aab1;
-  padding-left: 6px;
+  padding-right: 6px;
   font-size: 80%;
 }
 .chat .chat-history .message {
@@ -133,7 +136,7 @@ body {
   width: 100%;
   border: none;
   padding: 10px 20px;
-  font: 14px/22px "Roboto", Arial, sans-serif;
+  font: 14px/22px "Raleway", Arial, sans-serif;
   margin-bottom: 10px;
   resize: none;
 }
@@ -193,7 +196,7 @@ body {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form input {
-  font-family: "Roboto", sans-serif;
+  font-family: "Raleway", sans-serif;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -204,7 +207,7 @@ body {
   font-size: 14px;
 }
 .form button {
-  font-family: "Roboto", sans-serif;
+  font-family: "Raleway", sans-serif;
   text-transform: uppercase;
   outline: 0;
   background: #86BB71;
@@ -289,7 +292,7 @@ ul {
   font-weight: bold;
 }
 .chat-message button, .room-create button, .controls a {
-  font-family: "Roboto", sans-serif;
+  font-family: "Raleway", sans-serif;
   float: right;
   text-transform: uppercase;
   outline: 0;
@@ -320,7 +323,7 @@ span.adduser-btn:
 }
 
 .controls {
-  width: 270px;
+  width: 400px;
   float: left;
   margin: 0;
   text-align: center;

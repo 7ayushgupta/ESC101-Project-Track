@@ -25,6 +25,8 @@ Mentored by: Govind Gopakumar (@govg)
 
 * 10th April: Implememted room-wise history of messages, and improved GUI.
 
+* 15th April: Deployed the App to Heroku, and wrote some test cases.
+
 ### Basic File Structure
 ~~~
 .
@@ -52,7 +54,7 @@ Mentored by: Govind Gopakumar (@govg)
 │   ├── routes
 │   │   └── index.js
 │   ├── test
-│   │   ├── authentication_check.js
+│   │   ├── database_checks.js
 │   │   └── server_checks.js
 │   └── views
 │       ├── chatroom.ejs

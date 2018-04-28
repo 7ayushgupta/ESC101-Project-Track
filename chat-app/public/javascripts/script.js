@@ -1,44 +1,16 @@
 'use strict';
 
+/*
+Modulated code for ease of dividing the Javascript required on two different pages,
+into one larger function only.
+
+Some basic HTML modifying codes are listed below as helper codes
+*/
 var app = {
-
-  rooms: function(){
-
-    var socket = io('/rooms', { transports: ['websocket'] });
-
-    // When socket connects, get a list of chatrooms
-    socket.on('connect', function () {
-
-      // Update rooms list upon emitting updateRoomsList event
-      socket.on('updateRoomsList', function(room) {
-
-        // Display an error message upon a user error(i.e. creating a room with an existing title)
-        $('.room-create p.message').remove();
-        if(room.error != null){
-          $('.room-create').append(`<p class="message error">${room.error}</p>`);
-        }else{
-          app.helpers.updateRoomsList(room);
-        }
-      });
-
-      // Whenever the user hits the create button, emit createRoom event.
-      $('.room-create button').on('click', function(e) {
-        var inputEle = $("input[name='title']");
-        var roomTitle = inputEle.val().trim();
-        if(roomTitle !== '') {
-          socket.emit('createRoom', roomTitle);
-          inputEle.val('');
-        }
-      });
-
-    });
-  },
 
   chat: function(roomId, username){
     
-    console.log(username);
-
-    var socket = io('/chatroom', { transports: ['websocket'] });
+    var socket = io('/chatroom');
 
       // When socket connects, join the current chatroom
       socket.on('connect', function () {
@@ -56,7 +28,7 @@ var app = {
           }
         });
 
-        // Whenever the user hits the save button, emit newMessage event.
+        // Whenever the user hits the send button, emit newMessage event.
         $(".chat-message button").on('click', function(e) {
 
           var textareaEle = $("textarea[name='message']");
@@ -75,15 +47,22 @@ var app = {
         });
 
         socket.on('load old messages', function(docs){
-          console.log(docs);
+
           for(var i =0; i<docs.length; i++){
-            var temp = {
+
+            if(docs[i].room === roomId){
+              var temp = {
               date: docs[i].created_at,
               content: docs[i].message_body,
               username: docs[i].user,
+              }
             }
             app.helpers.addMessage(temp);
           }
+        });
+
+        socket.on('updateAllUsers', function(allusers){
+          console.log(allusers);
         });
 
         // Whenever a user leaves the current room, remove the user from users list
@@ -123,39 +102,44 @@ var app = {
 
     // Update users list
     updateUsersList: function(users, clear){
-        if(users.constructor !== Array){
-          users = [users];
-        }
-        var temp = [];
-        var html = '';
-        console.log("Array of users:");
-        console.log(users);
-        for(var user of users) {
-          if(user.local){
-          console.log("Online user: ");
-          console.log(user);
+      
+      if(users.constructor !== Array){
+        users = [users];
+      }
+      var temp = [];
+      var html = '';
+      console.log(users);
+       
+      for(var user of users) {
+         
+        if(user.local){
+             
           if(temp.indexOf(user)===-1){
             temp.push(user);
-            var username = user.local.email.split("@")[0];
-            user.username = this.encodeHTML(user.username);
-            html += `<li class="clearfix" id="user-${user._id}">
+          }
+        }
+      }
+
+      for(var user of temp){
+        var username = user.local.email.split("@")[0];
+        user.username = this.encodeHTML(user.username);
+        html += `<li class="clearfix" id="user-${user._id}">
                       <img src="${user.local.picture}" alt="${user.username}" />
                       <div class="about">
                           <div class="name">${username}</div>
                           <div class="status"><i class="fa fa-circle online"></i> online</div>
                       </div></li>`;
-          }
-        }
       }
-        if(html === ''){ return; }
+          
+      if(html === ''){ return; }
 
-        if(clear != null && clear == true){
-          $('.users-list ul').html('').html(html);
-        }else{
-          $('.users-list ul').prepend(html);
-        }
+      if(clear != null && clear == true){
+        $('.users-list ul').html('').html(html);
+      }else{
+        $('.users-list ul').prepend(html);
+      }
 
-        this.updateNumOfUsers();
+      this.updateNumOfUsers();
     },
 
     // Adding a new message to chat history
@@ -193,5 +177,39 @@ var app = {
       var num = $('.users-list ul li').length;
       $('.chat-num-users').text(num +  " User(s)");
     }
-  }
+  },
+
+  rooms: function(){
+
+    var socket = io('/rooms');
+
+    // When socket connects, get a list of chatrooms
+    socket.on('connect', function () {
+
+      // Update rooms list upon emitting updateRoomsList event
+      socket.on('updateRoomsList', function(room) {
+
+        // Display an error message upon a user error(i.e. creating a room with an existing title)
+        $('.room-create p.message').remove();
+        if(room.error != null){
+          $('.room-create').append(`<p class="message error">${room.error}</p>`);
+        }else{
+          app.helpers.updateRoomsList(room);
+        }
+      });
+
+      // Whenever the user hits the create button, emit createRoom event.
+      $('.room-create button').on('click', function(e) {
+        var inputEle = $("input[name='title']");
+        var roomTitle = inputEle.val().trim();
+        if(roomTitle !== '') {
+          socket.emit('createRoom', roomTitle);
+          inputEle.val('');
+        }
+      });
+
+    });
+  },
 };
+
+module.exports = app();

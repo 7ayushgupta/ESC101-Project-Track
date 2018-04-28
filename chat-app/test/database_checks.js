@@ -1,3 +1,9 @@
+/*
+This is a test to ensure that we are connected to the correct database,
+and are able to retrieve trivial information or not
+*/
+
+
 var should = require("should");
 var mongoose = require('mongoose');
 var User = require("../models/user.js").User;

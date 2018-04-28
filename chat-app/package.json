@@ -19,6 +19,7 @@
     "mongoose": "^5.0.11",
     "morgan": "~1.0.0",
     "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "passport.socketio": "^3.7.0",
     "socketio": "^1.0.0",

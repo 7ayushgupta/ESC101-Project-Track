@@ -1,3 +1,11 @@
+/*
+This collection handles the various users that have registered.
+This stores their email, password, and a profile picture.
+
+Wished to add feature to choose own profile picture, if time allowed.
+*/
+
+
 var mongoose = require('mongoose');  
 var bcrypt   = require('bcrypt-nodejs');
 
