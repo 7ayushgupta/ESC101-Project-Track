@@ -15,6 +15,12 @@ var passport = require('passport');
 var router = express.Router();
 var Room = require('../models/room').roomModel;
 
+function isLoggedIn(req, res, next) {  
+  if (req.isAuthenticated())
+      return next();
+  res.redirect('/');
+}
+
 router.get('/', function(req, res, next) {  
   res.render('index');
 });
@@ -32,8 +38,8 @@ router.get('/profile', isLoggedIn, function(req, res) {
 });
 
 //isLoggedin is the function which will tell us, whether he is logged in or not
-router.get('/chat/:id', [isLoggedIn, function(req, res, next) {
-  var roomId = req.params.id;
+router.get('/chat/:input_id', [isLoggedIn, function(req, res, next) {
+  var roomId = req.params.input_id;
   Room.findById(roomId, function(err, room){
     if(err) throw err;
     if(!room){
@@ -62,6 +68,14 @@ router.post('/signup', passport.authenticate('local-signup', {
   failureFlash: true,
 }));
 
+router.post('/login', passport.authenticate('local-login', {  
+  successRedirect: '/rooms',
+  failureRedirect: '/login',
+  failureFlash: true,
+}));
+
+module.exports = router;
+
 /*
 This is the code for callbacks and redirecting needed for Facebook authentication
 router.get('/facebook',
@@ -74,17 +88,3 @@ router.get('/facebook/callback',
     res.redirect('/rooms');
 });
 */
-router.post('/login', passport.authenticate('local-login', {  
-  successRedirect: '/rooms',
-  failureRedirect: '/login',
-  failureFlash: true,
-}));
-
-module.exports = router;
-
-function isLoggedIn(req, res, next) {  
-  if (req.isAuthenticated())
-      return next();
-  res.redirect('/');
-}
-

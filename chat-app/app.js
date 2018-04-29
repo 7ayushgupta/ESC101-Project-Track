@@ -44,7 +44,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ 
     store: sessionStore,
     secret: 'foxtrot',
-    key: 'lol'
+    key: 'lol',
+    cookie: {
+      maxAge:60000
+    }
 }));
 
 //use of Passport for authentication
@@ -138,7 +141,6 @@ io.of('/chatroom').on('connection', function(socket) {
         throw error;
       
       if(!room){
-        // Assuming that you already checked in router that chatroom exists
         // Then, if a room doesn't exist here, return an error to inform the client-side.
         socket.emit('updateUsersList', { error: 'Room doesnt exist.' });
       }
@@ -153,7 +155,7 @@ io.of('/chatroom').on('connection', function(socket) {
         // Join the room channel
         socket.join(newRoom.id);
 
-        Room.getUsers(newRoom, socket, function(error, users, currentUserInRoom){
+        Room.findUsersinRoom(newRoom, socket, function(error, users, currentUserInRoom){
           if(error)
             throw error;
           Chat.find({}, function(error, docs){
@@ -175,7 +177,7 @@ io.of('/chatroom').on('connection', function(socket) {
             {
               console.log("starting again" + rooms_list[i].title);
               if(rooms_list[i].connections.length>0){
-              Room.getUsers(rooms_list[i], socket, function(error, users, currentUserInRoom){
+              Room.findUsersinRoom(rooms_list[i], socket, function(error, users, currentUserInRoom){
                 socket.emit('updateAllUsers', users);
               });
               }
@@ -203,7 +205,7 @@ io.of('/chatroom').on('connection', function(socket) {
 
     // Find the room to which the socket is connected to, 
     // and remove the current user + socket from this room
-    Room.removeUser(socket, function(error, room, currentUserInRoom){
+    Room.disconnectUser(socket, function(error, room, currentUserInRoom){
       if(error) throw error;
 
       // Leave the room channel
@@ -212,7 +214,7 @@ io.of('/chatroom').on('connection', function(socket) {
       // Return the user id ONLY if the user was connected to the current room using one socket
       // The user id will be then used to remove the user from users list on chatroom page
       if(currentUserInRoom === 1){
-        socket.broadcast.to(room.id).emit('removeUser', userId);
+        socket.broadcast.to(room.id).emit('disconnectUser', userId);
       }
     });
   });

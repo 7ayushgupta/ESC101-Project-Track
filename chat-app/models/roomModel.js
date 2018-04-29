@@ -1,9 +1,9 @@
 'use strict';
 
 /*
-Each connection object represents a user connected through a unique socket.
-So, this was done to ensure that each room identifies a login as a particular person, because
+This was done to ensure that each room identifies a login as a particular person, because
 when he logs in at different times, he is assigned a new socketId.
+Each connection object represents a user connected through a unique socket.
  */
 
 var Mongoose  = require('mongoose');

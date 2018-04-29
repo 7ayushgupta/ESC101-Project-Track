@@ -9,13 +9,13 @@ Wished to add feature to choose own profile picture, if time allowed.
 var mongoose = require('mongoose');  
 var bcrypt   = require('bcrypt-nodejs');
 
-const DEFAULT_USER_PICTURE = "/images/user.jpg";
+const DEFAULT_PICTURE = "/images/user.jpg";
 
 var userSchema = mongoose.Schema({  
   local: {
     email: String,
     password: String,
-    picture: {type: String, default:DEFAULT_USER_PICTURE}
+    picture: {type: String, default:DEFAULT_PICTURE}
   },
 });
 

@@ -6,7 +6,7 @@ into one larger function only.
 
 Some basic HTML modifying codes are listed below as helper codes
 */
-var app = {
+var develop = {
 
   chat: function(roomId, username){
     
@@ -24,7 +24,7 @@ var app = {
           if(users.error != null){
             $('.container').html(`<p class="message error">${users.error}</p>`);
           }else{
-            app.helpers.updateUsersList(users, clear);
+            develop.subfunc.updateUsersList(users, clear);
           }
         });
 
@@ -42,7 +42,7 @@ var app = {
 
             socket.emit('newMessage', roomId, message);
             textareaEle.val('');
-            app.helpers.addMessage(message);
+            develop.subfunc.addMessage(message);
           }
         });
 
@@ -57,7 +57,7 @@ var app = {
               username: docs[i].user,
               }
             }
-            app.helpers.addMessage(temp);
+            develop.subfunc.addMessage(temp);
           }
         });
 
@@ -66,19 +66,19 @@ var app = {
         });
 
         // Whenever a user leaves the current room, remove the user from users list
-        socket.on('removeUser', function(userId) {
+        socket.on('disconnectUser', function(userId) {
           $('li#user-' + userId).remove();
-          app.helpers.updateNumOfUsers();
+          develop.subfunc.updateNumOfUsers();
         });
 
-        // Append a new message 
+        // developend a new message 
         socket.on('addMessage', function(message) {
-          app.helpers.addMessage(message);
+          develop.subfunc.addMessage(message);
         });
       });
   },
 
-  helpers: {
+  subfunc: {
 
     encodeHTML: function (str){
       return $('<div />').text(str).html();
@@ -157,7 +157,7 @@ var app = {
                     </div>
                     <div class="message my-message" dir="auto">${message.content}</div>
                   </li>`;
-      $(html).hide().appendTo('.chat-history ul').slideDown(200);
+      $(html).hide().developendTo('.chat-history ul').slideDown(200);
 
       // Keep scroll bar down
       $(".chat-history").animate({ scrollTop: $('.chat-history')[0].scrollHeight}, 1000);
@@ -192,9 +192,9 @@ var app = {
         // Display an error message upon a user error(i.e. creating a room with an existing title)
         $('.room-create p.message').remove();
         if(room.error != null){
-          $('.room-create').append(`<p class="message error">${room.error}</p>`);
+          $('.room-create').developend(`<p class="message error">${room.error}</p>`);
         }else{
-          app.helpers.updateRoomsList(room);
+          develop.subfunc.updateRoomsList(room);
         }
       });
 
@@ -212,4 +212,4 @@ var app = {
   },
 };
 
-module.exports = app();
+module.exports = develop();

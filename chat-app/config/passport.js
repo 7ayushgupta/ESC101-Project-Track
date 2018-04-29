@@ -1,3 +1,7 @@
+/*
+This fle is the main file, which uses Passport
+*/
+
 var LocalStrategy = require('passport-local').Strategy;  
 var User = require('../models/user').User;
 var FacebookStrategy = require('passport-facebook').Strategy;
